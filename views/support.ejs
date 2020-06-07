@@ -1,0 +1,7 @@
+<h1>Support</h1>
+<% include ./partials/messages %>
+<form action="/support/add" method="post">
+    <textarea class="form-control" name="motif" id="motif" cols="30" rows="10" placeholder="Motif"></textarea>
+    <button type="submit" class="btn btn-primary">Post ticket</button>
+</form>
+<a href="/dashboard" class="btn btn-warning">Dashboard</a>

@@ -1,0 +1,160 @@
+<div class="container">
+    <div class="row">
+        <h1>Globals Settings</h1>
+    </div>
+    <div class="row">
+        <div class="col">
+            <ul class="onglet">
+                <li id="liusers" class="focused">Users</li>
+                <li><strong>/</strong></li>
+                <li id="lisupport" class="none">Support Tickets</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div id="op1">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col"># (User ID)</th>
+                        <th scope="col">Full Name</th>
+                        <th scope="col">Job</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Upgrade</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach(function(user) { %>
+                    <tr>
+                        <td scope="row"><%= user.id %></td>
+                        <td><a href="/profile/<%= user.id %>"><%= user.name %></a></td>
+                        <td><%= user.job %></td>
+                        <td><%= user.email %></td>
+                        <td style="text-decoration: underline;"><%= user.status %></td>
+                        <td>
+                            <% if(user.status == "user"){ %>
+                                <div class="row-grant">
+                                    <form action="/users/grant/<%= user.id %>" method="post">
+                                        <button type="submit" class="btn btn-warning"><i style="color: #fff" class="fas fa-hand-point-up"></i></button>
+                                    </form>
+                                    <form action="/users/ungrant/<%= user.id %>" method="post">
+                                        <button type="submit" class="btn btn-secondary" disabled><i style="color: #fff" class="fas fa-hand-point-down"></i></button>
+                                    </form>
+                                </div>
+                            <% }else if(user.status == "admin"){ %>
+                                <div class="row-grant">
+                                    <form action="/users/grant/<%= user.id %>" method="post">
+                                        <button type="submit" class="btn btn-secondary" disabled><i style="color: #fff" class="fas fa-hand-point-up"></i></button>
+                                    </form>
+                                    <form action="/users/ungrant/<%= user.id %>" method="post">
+                                        <button type="submit" class="btn btn-danger"><i style="color: #fff" class="fas fa-hand-point-down"></i></button>
+                                    </form>
+                                </div>
+                            <% }else if(user.status == "moderator"){ %>
+                                <div class="row-grant">
+                                    <form action="/users/grant/<%= user.id %>" method="post">
+                                        <button type="submit" class="btn btn-warning"><i style="color: #fff" class="fas fa-hand-point-up"></i></button>
+                                    </form>
+                                    <form action="/users/ungrant/<%= user.id %>" method="post">
+                                        <button type="submit" class="btn btn-danger"><i style="color: #fff" class="fas fa-hand-point-down"></i></button>
+                                    </form>
+                                </div>
+                            <% } %>
+                        </td>
+                        <td>
+                            <form action="/users/delete/<%= user.id %>" method="post">
+                                <button type="submit" class="btn btn-primary"><i style="color: #fff" class="fas fa-trash-alt"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+        <div id="op2">
+            <% tickets.forEach(function(ticket) { %>
+                <div class="card" style="margin-bottom: 30px;">
+                    <h5 class="card-header"><strong># <%= ticket.date %></strong></h5>
+                    <div class="card-body">
+                        <h5 class="card-title"><strong>User ID: </strong><%= ticket.userID %></h5>
+                        <p class="card-text"><strong>Motif: </strong><%= ticket.motif %></p>
+                        <div class="row-grant">
+                            <form action="/support/solve/<%= ticket.id %>" method="post">
+                                <button type="submit"class="btn btn-success">Set to solved</button>
+                            </form>
+                            <form action="/support/delete/<%= ticket.id %>" method="post">
+                                <button type="submit"class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                  </div>
+            <% }) %>
+        </div>
+    </div>
+</div>
+<script>
+    var liusers = document.getElementById("liusers");
+    var lisupport = document.getElementById("lisupport");
+
+    liusers.addEventListener('click', function(){
+        liusers.className = "focused";
+        lisupport.className = "none";
+        document.getElementById("op2").style.display = "none";
+        document.getElementById("op1").style.display = "block";
+    })
+
+    lisupport.addEventListener('click', function(){
+        liusers.className = "none";
+        lisupport.className = "focused";
+        document.getElementById("op1").style.display = "none";
+        document.getElementById("op2").style.display = "block";
+    })
+</script>
+<style>
+.row-grant {
+    display: flex;
+}
+
+.row-grant form:first-child button {
+    margin-right: 10px;
+}
+
+.onglet {
+    list-style: none;
+    display: flex;
+    color: #575D64;
+    padding: 0;
+    position: relative;
+    top: 18px;
+    z-index: 2;
+    margin-bottom: 30px;
+}
+
+.onglet li {
+    padding: 10px 20px;
+    border-radius: 3px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.onglet li:first-child {
+    margin-right: 1px;
+}
+
+.onglet .focused {
+    color: rgb(48, 104, 189);
+    padding: 10px 20px;
+    z-index: 3px;
+}
+
+.onglet li[class="none"]:hover {
+    color: rgb(48, 104, 189);
+    padding: 10px 20px;
+}
+
+#op2 {
+    display: none;
+}
+</style>

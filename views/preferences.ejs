@@ -1,0 +1,80 @@
+<div class="container">
+    <div class="row">
+        <h3>Profile picture</h3>
+    </div>
+    <div class="row">
+        <div class="col-12 col-lg-1">
+            <img src="profile/<%= user.actualP %>.png" alt="actual_picture" class="actual_pic">
+        </div>
+    </div>
+    <% include ./partials/messages %>
+    <h5>Others avatar available: </h5>
+    <div class="row">
+        <% for(var i = 1;i < 37;i++){ %>
+            <div class="col-3 col-sm-2 col-md-2 col-lg-1 col-xl-1">
+                <img id="<%= i %>" src="profile/<%= i %>.png" alt="profile_picture" class="selection_pic rounded">
+            </div>
+        <% } %>
+    </div>
+    <div class="row">
+        <form action="/users/changep" method="post">
+            <input type="text" name="email" hidden value="<%= user.email %>">
+            <input type="text" name="pictureid" id="pictureid" hidden value="<%= user.actualP %>">
+            <button type="submit" class="btn btn-warning">Modify avatar</button>
+        </form>
+    </div>
+    <div class="row">
+        <a href="/dashboard" class="btn btn-primary">Dashboard</a>
+    </div>
+</div>
+<script>
+var pictures = document.querySelectorAll(".selection_pic");
+var pictureid = document.getElementById("pictureid");
+
+for (let i = 0; i < pictures.length; i++) {
+    pictures[i].addEventListener('click', function() {
+        pictureid.value = pictures[i].id;
+        for (let i = 0; i < pictures.length; i++) {
+            pictures[i].style.border = "2px solid white";
+        }
+        pictures[i].style.border = "2px solid green";
+    })
+}
+
+</script>
+<style>
+body img:first-child {
+    border-radius: 50%;
+}
+
+h3 {
+    margin-top: 30px;
+}
+
+.colflex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.row form button {
+    margin-bottom: 15px;
+}
+
+.selection_pic {
+    display: block;
+    max-width: 80px;
+    height: auto;
+    margin-bottom: 20px;
+    border: 2px solid white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.actual_pic {
+    display: block;
+    max-width: 200px;
+    height: auto;
+    border: 2px solid white;
+    margin: 30px 0;
+}
+</style>

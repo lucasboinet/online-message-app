@@ -1,0 +1,98 @@
+<style>
+    #message-container::-webkit-scrollbar {
+        width: 5px;
+    }
+    #message-container::-webkit-scrollbar-thumb:vertical {
+        margin: 5px;
+        background-color: #999;
+        -webkit-border-radius: 5px;
+    }
+    #message-container::-webkit-scrollbar-button:start:decrement,
+    #message-container::-webkit-scrollbar-button:end:increment {
+        height: 5px;
+        display: block;
+    }
+    #message-container {
+        box-shadow: inset 0px 0px 10px 1px rgba(0,0,0,0.2);
+        width: 70%;
+        height: calc(100vh - 200px);
+        margin: 20px auto;
+        overflow-y: scroll;
+        padding: 0 5px;
+    }
+    #send-container {
+        margin: 0 auto;
+        width: 70%;
+    }
+    #message-input {
+        width: calc(100% - 110px);
+    }
+    #send-button {
+        width: 100px;
+    }
+    .message {
+        margin: 15px 0;
+        height: 50px;
+        width: 100%;
+    }
+    .message-content {
+        width: calc(50% - 20px);
+        padding: 5px;
+        border-radius: 5px;
+        word-break: keep-all;
+        min-height: 50px;
+    }
+    .other_pic {
+        width: 40px;
+        
+    }
+    .receivedMessage {
+        background-color: rgb(209,209,214);
+        color: #fff;
+    }
+    .myMessageColor {
+        background-color: rgb(0,122,255);
+        color: #fff;
+    }
+    .myMessage {
+        display: flex;
+        justify-content: flex-end;
+    }
+    h1 {
+        text-align: center;
+    }
+</style>
+<a href="/espace" class="btn btn-primary">Retour</a>
+<h1><%= otherUser.name %></h1>
+<input type="text" id="userName" value="<%= user.name %>" hidden>
+<div id="message-container">
+    <% roomMessages.forEach(function(roomMessage) { %>
+        <% if (roomMessage.userID == user.name) { %>
+            <div class="message myMessage">
+                <div class="message-content myMessageColor">
+                    <img class="other_pic" src="/profile/<%= user.actualP %>.png" alt="user_pic">
+                    <%= roomMessage.userID %> : <%= roomMessage.text %>
+                </div>
+            </div>
+        <% }else{ %>
+            <div class="message">
+                <div class="message-content receivedMessage">
+                    <img class="other_pic" src="/profile/<%= otherUser.actualP %>.png" alt="user_pic">
+                    <%= roomMessage.userID %> : <%= roomMessage.text %>
+                </div>
+            </div>
+        <% } %>
+    <% }) %>
+</div>
+<form id="send-container">
+    <input type="text" id="message-input">
+    <button type="submit" id="send-button">Send</button>
+</form>
+<script>
+    const roomName = "<%= roomName %>"
+    const actualUserPic = "<%= user.actualP %>"
+    var messageContainer = document.getElementById('message-container');
+    messageContainer.scrollTop = messageContainer.scrollHeight;
+</script>
+<script defer src="/socket.io/socket.io.js"></script>
+<script defer src="/chat.js"></script>

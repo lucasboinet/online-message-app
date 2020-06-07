@@ -1,0 +1,52 @@
+<link rel="stylesheet" href="dashboard.css">
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="mt-4">Dashboard</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <img src="profile/<%= user.actualP %>.png" alt="profile_picture">
+            <div class="user_info">
+                <p id="profile_tag" class="lead mb-3"><a href="/profile/<%= user.id %>">@<%= user.name %></a></p>
+                <p class="lead mb-3">Email: <%= user.email %></p>
+                <p class="lead mb-3">Date: <%= user.date %></p>
+                <p class="lead mb-3">Job: <%= user.job %></p>
+                <p class="lead mb-3">Friends: <%= numberF %></p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="user_option">
+            <a href="/espace" class="btn btn-success">Chat</a>
+            <a href="/friendlist" class="btn btn-primary">Friendlist</a>
+            <a href="/users/logout" class="btn btn-secondary">Logout</a>
+            <a href="/preferences" class="btn btn-primary">Preferences</a>
+            <a href="/support" class="btn btn-danger">Support</a>
+            <% if (user.status == "admin"){ %>
+            <a href="/global-settings" class="btn btn-warning">Global Settings</a>
+            <% } %>
+        </div>
+    </div>
+    <div class="row">
+        <div id="request_box" class="col">
+            <% if(friendrequest[0] != undefined){ %>
+                <h3>Friend request</h3>
+            <% } %>
+            <% friendrequest.forEach(function(request){%>
+                <div class="request alert alert-primary" role="alert">
+                    Friend request from: <%= request.userAsking %>
+                    <div class="request_option">
+                        <form action="/request/add/<%= request.id %>" method="post">
+                            <button type="submit" class="btn btn-success">Accept</button>
+                        </form>
+                        <form action="/request/refuse/<%= request.id %>" method="post">
+                            <button type="submit" class="btn btn-danger">Reject</button>
+                        </form>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.row {
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+#profile_tag {
+    font-weight: bold;
+}
+
+.user_info {
+    margin-top: 20px;
+}
+
+.user_option {
+    margin: 0 auto;
+}
+
+h3 {
+    margin-top: 20px;
+    text-decoration: underline;
+}
+
+.request {
+    margin-top: 20px;
+}
+
+.request_option {
+    display: flex;
+    justify-content: center;
+}
+
+.request_option button {
+    margin: 10px 5px 2px 5px;
+}
+
+img {
+    width: 230px;
+    display: block;
+    margin: 0 auto;
+    border: 1px solid black;
+    border-radius: 50%;
+}
+
+a.btn {
+    margin: 10px;
+}

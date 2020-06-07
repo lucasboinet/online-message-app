@@ -1,0 +1,17 @@
+<a href="/dashboard" class="btn btn-primary">Retour</a>
+
+<% if(chatRoom.length != 0){ %>
+    <% chatRoom.forEach(function(rooms) { %>
+        <div>
+            <a href="/espace/<%= rooms.chatName %>"><%= rooms.chatName %>
+            <% if(rooms.unreadedMessage){ %>
+                <span class="badge badge-secondary">New</span></h6>
+            <% } %>
+            </a>
+        </div>
+    <% }) %>
+<% }else{ %>
+    <h5>Aucune discussion trouvée</h5>
+<% } %>
+<script defer src="/socket.io/socket.io.js"></script>
+<script defer src="/chat.js"></script>

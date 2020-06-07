@@ -1,0 +1,22 @@
+<%= user.id %>
+<%= user.name %>
+<%= user.job %>
+<%= user.email %>
+<% if(user.id != actualU.id){ %>
+    <% if(friendship == null){ %>
+        <form action="/request/send/<%= user.id %>" method="post">
+            <button type="submit" class="btn btn-success">Add friend</button>
+        </form>
+    <% }else if(friendship.sended && !friendship.accepted){ %>
+        <form action="/request/delete/<%= user.id %>" method="post">
+            <button type="submit" class="btn btn-warning">Cancel invite</button>
+        </form>
+    <% }else{ %>
+        <form action="/espace/<%= actualU.id %><%= user.id %>" method="post">
+            <button type="submit" class="btn btn-primary">Discussion</button>
+        </form>
+        <form action="/request/delete/<%= user.id %>" method="post">
+            <button type="submit" class="btn btn-danger">Delete friend</button>
+        </form>
+    <% } %>
+<% } %>

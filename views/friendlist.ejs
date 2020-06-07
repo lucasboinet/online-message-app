@@ -1,0 +1,19 @@
+<% friends.forEach(function(friend){ %>
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <% if(friend.userAsked == user.id){ %>
+                <h5 class="card-title"><%= friend.userAsking %></h5>
+                <% console.log(user.id + friend.userAsking) %>
+                <form action="/espace/<%= user.id %><%= friend.userAsking %>" method="post">
+                    <button type="submit" class="btn btn-primary">Discussion</button>
+                </form>
+            <% }else{ %>
+                <h5 class="card-title"><%= friend.userAsked %></h5>
+                <% console.log(friend.userAsked + user.id) %>
+                <form action="/espace/<%= friend.userAsked %><%= user.id %>" method="post">
+                    <button type="submit" class="btn btn-primary">Discussion</button>
+                </form>
+            <% } %>
+        </div>
+      </div>
+<% }) %>
