@@ -15,7 +15,8 @@ router.get('/auth', forwardAuthenticated, (req, res) => res.render('auth'));
 
 router.get('/espace', ensureAuthenticated, (req, res) => {
   Room.find({chatName: {$regex: req.user.id}}).then(chatRoom => {
-    res.render('espace', {chatRoom: chatRoom, user: req.user})
+    console.log(chatRoom.id);
+    res.render('espace', {chatRoom: chatRoom, user: req.user});
   }).catch(err => console.log(err))
 })
 
@@ -100,12 +101,20 @@ router.post('/espace/:roomid', (req, res) => {
     if(room != null && room.length != 0){
       return res.redirect('/espace/'+room.chatName)
     }
-      const newRoom = new Room({
-        chatName: req.params.roomid
-      })
-      newRoom.save()
-        .then(res.redirect('/espace/'+req.params.roomid))
-        .catch(err => console.log(err));
+    User.find({
+      $or: [
+        {$and: [{_id: req.user.id}]},
+        {$and: [{_id: otherUserID}]}
+      ]
+    }).then(users => {
+        const newRoom = new Room({
+          chatName: req.params.roomid,
+          members: [users.name]
+        })
+        newRoom.save()
+          .then(res.redirect('/espace/'+req.params.roomid))
+          .catch(err => console.log(err));
+      })    
   })
 })
 

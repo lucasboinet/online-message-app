@@ -5,10 +5,7 @@ const RoomSchema = new mongoose.Schema({
     type: String,
     require: true
   },
-  onlineUser: {
-    type: Number,
-    default: 0
-  },
+  members: [String],
   unreadedMessage: {
     type: Boolean,
     default: false
